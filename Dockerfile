@@ -30,6 +30,11 @@ RUN /bin/bash -c  'echo ${sql1}'
 RUN /bin/bash -c  'echo ${sql2}'
 RUN /bin/bash -c  'echo ${sql3}'
 
+RUN service mysql start ||\
+	cat /var/log/mysql.err
+RUN service mysql start &&\
+	cat /var/log/mysql.err
+
 RUN service mysql start &&\
     mysql -e "${sql1}"&&\
     mysql -e "${sql2}"&&\
