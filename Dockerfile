@@ -1,12 +1,11 @@
 FROM ubuntu
-VOLUME /tmp
-VOLUME /var/lib/mysql
+#VOLUME /tmp
 
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list /etc/apt/
 #RUN rm -rf /var/lib/apt/lists/partial/*
-RUN apt-get update;\
-    apt-get -y upgrade
+RUN apt-get update
+#    apt-get -y upgrade
 RUN apt-get install -y mysql-server mysql-client libmysqlclient-dev tree lsof nano
 ADD ./apache-tomcat-9.0.13.tar.gz /root/software
 #ADD ./jdk-8u191-linux-x64.tar.gz /root/software
@@ -32,8 +31,10 @@ ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}') where u
 #RUN service mysql start &&\
 RUN chown -R mysql:mysql /var/lib/mysql
 RUN usermod -d /var/lib/mysql/ mysql
-RUN chown -R mysql:mysql /var/lib/mysql && \
-    service mysql status
+#RUN chown -R mysql:mysql /var/lib/mysql && \
+#    service mysql status
+VOLUME /var/lib/mysql
+
 RUN chown -R mysql:mysql /var/lib/mysql && \
     service mysql start && \
     mysql -e "${sql1}"&&\
