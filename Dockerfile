@@ -30,7 +30,8 @@ RUN /bin/bash -c  'echo ${sql1}'
 RUN /bin/bash -c  'echo ${sql2}'
 RUN /bin/bash -c  'echo ${sql3}'
 #RUN service mysql start &&\
-RUN /etc/inint.d/mysqld start &&\
+RUN chown -R mysql:mysql /var/lib/mysql
+RUN /etc/inint.d/mysql start &&\
     mysql -e "${sql1}"&&\
     mysql -e "${sql2}"&&\
     mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
