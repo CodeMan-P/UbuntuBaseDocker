@@ -29,13 +29,8 @@ ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}') where u
 RUN /bin/bash -c  'echo ${sql1}'
 RUN /bin/bash -c  'echo ${sql2}'
 RUN /bin/bash -c  'echo ${sql3}'
-
-RUN service mysql start ||\
-	cat /var/log/mysql.err
-RUN service mysql start &&\
-	cat /var/log/mysql.err
-
-RUN service mysql start &&\
+#RUN service mysql start &&\
+RUN /etc/inint.d/mysqld start &&\
     mysql -e "${sql1}"&&\
     mysql -e "${sql2}"&&\
     mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
