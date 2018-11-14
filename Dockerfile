@@ -32,10 +32,9 @@ ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}') where u
 #RUN service mysql start &&\
 RUN chown -R mysql:mysql /var/lib/mysql
 RUN usermod -d /var/lib/mysql/ mysql
-RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
-    service mysql status && \
-    echo hello
-RUN chown -R mysql:mysql /var/lib/mysql /var/run/mysqld && \
+RUN chown -R mysql:mysql /var/lib/mysql && \
+    service mysql status
+RUN chown -R mysql:mysql /var/lib/mysql && \
     service mysql start && \
     mysql -e "${sql1}"&&\
     mysql -e "${sql2}"&&\
