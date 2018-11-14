@@ -31,13 +31,13 @@ RUN /bin/bash -c  'echo ${sql2}'
 RUN /bin/bash -c  'echo ${sql3}'
 #RUN service mysql start &&\
 RUN chown -R mysql:mysql /var/lib/mysql
-RUN /etc/init.d/mysql start &&\
-    mysql -e "${sql1}"&&\
-    mysql -e "${sql2}"&&\
-    mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
-    mysql -e "FLUSH PRIVILEGES;"&&\
-    mysql -e "${sql3};FLUSH PRIVILEGES;"&&\
-    mysql -uroot -p${pwd} -e "show databases;"
+#RUN /etc/init.d/mysql start &&\
+#    mysql -e "${sql1}"&&\
+#    mysql -e "${sql2}"&&\
+#    mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
+#    mysql -e "FLUSH PRIVILEGES;"&&\
+#    mysql -e "${sql3};FLUSH PRIVILEGES;"&&\
+#    mysql -uroot -p${pwd} -e "show databases;"
 
 
 #RUN service mysql start &&\
@@ -65,5 +65,5 @@ RUN chmod 700 /root/setup.sh
 #CMD ["echo"]
 
 #define entry point which will be run first when the container starts up
-#ENTRYPOINT /root/apache-tomcat-9.0.13/bin/startup.sh && tail -F /root/apache-tomcat-9.0.13/logs/catalina.out 
-ENTRYPOINT /root/setup.sh
+
+#ENTRYPOINT /root/setup.sh
