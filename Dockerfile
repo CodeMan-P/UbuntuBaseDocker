@@ -1,6 +1,6 @@
 FROM ubuntu
 VOLUME /tmp
-
+VOLUME /var/lib/mysql
 
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list /etc/apt/
