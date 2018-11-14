@@ -5,7 +5,8 @@ VOLUME /tmp
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.bak
 COPY ./sources.list /etc/apt/
 #RUN rm -rf /var/lib/apt/lists/partial/*
-RUN apt-get update
+RUN apt-get update;\
+    apt-get -y upgrade
 RUN apt-get install -y mysql-server mysql-client libmysqlclient-dev tree lsof nano
 ADD ./apache-tomcat-9.0.13.tar.gz /root/software
 #ADD ./jdk-8u191-linux-x64.tar.gz /root/software
@@ -25,15 +26,15 @@ ARG pwd=123456
 ARG sql1="grant all privileges on *.* to 'root'@'%' identified by '"${pwd}"' WITH GRANT OPTION ;"
 ARG sql2="grant all privileges on *.* to 'root'@'localhost' identified by '"${pwd}"' WITH GRANT OPTION ;"
 ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}') where user='root';"
-
-RUN /bin/bash -c  'echo ${sql1}'
-RUN /bin/bash -c  'echo ${sql2}'
-RUN /bin/bash -c  'echo ${sql3}'
+#RUN /bin/bash -c  'echo ${sql1}'
+#RUN /bin/bash -c  'echo ${sql2}'
+#RUN /bin/bash -c  'echo ${sql3}'
 #RUN service mysql start &&\
 RUN chown -R mysql:mysql /var/lib/mysql
 RUN usermod -d /var/lib/mysql/ mysql
-RUN service mysql status
-RUN /etc/init.d/mysql start &&\
+RUN service mysql status;\
+    echo hello
+RUN /etc/init.d/mysql start;\
     mysql -e "${sql1}"&&\
     mysql -e "${sql2}"&&\
     mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
