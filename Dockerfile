@@ -52,6 +52,6 @@ ENV TOMCAT_HOME /root/software/apache-tomcat-9.0.13
 
 
 RUN chmod 700 /root/setup.sh
-
+RUN apt-get install -y wget curl git
 #define entry point which will be run first when the container starts up
 #ENTRYPOINT /root/setup.sh
