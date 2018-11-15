@@ -23,20 +23,20 @@ ARG pwd=123456
 
 ARG sql1="grant all privileges on *.* to 'root'@'%' identified by '"${pwd}"' WITH GRANT OPTION ;"
 ARG sql2="grant all privileges on *.* to 'root'@'localhost' identified by '"${pwd}"' WITH GRANT OPTION ;"
-ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}') where user='root';"
+ARG sql3="update mysql.user set authentication_string=PASSWORD('${pwd}'), plugin='mysql_native_password' where user='root';FLUSH PRIVILEGES;"
 
 RUN chown -R mysql:mysql /var/lib/mysql
 RUN usermod -d /var/lib/mysql/ mysql
 
-VOLUME /var/lib/mysql
+#VOLUME /var/lib/mysql
 RUN chown -R mysql:mysql /var/lib/mysql && \
     service mysql start && \
-    mysql -e "${sql1}"&&\
-    mysql -e "${sql2}"&&\
-    mysql -e "update mysql.user set plugin='mysql_native_password' where host='localhost' and user='root';"&&\
-    mysql -e "FLUSH PRIVILEGES;"&&\
-    mysql -e "${sql3};FLUSH PRIVILEGES;"&&\
-    mysql -uroot -p${pwd} -e "show databases;"
+    mysql -e "${sql3};"&&\
+    mysql -uroot -p${pwd} -e "${sql1}"&&\
+    mysql -uroot -p${pwd} -e "${sql2}"&&\
+    mysql -uroot -p${pwd} -e "show databases;"&&\
+    mysql -uroot -p${pwd} -e "select user,host,authentication_string,plugin from mysql.user"&&\
+    service mysql stop
 
 EXPOSE 3306
 EXPOSE 8080
@@ -54,4 +54,4 @@ ENV TOMCAT_HOME /root/software/apache-tomcat-9.0.13
 RUN chmod 700 /root/setup.sh
 
 #define entry point which will be run first when the container starts up
-ENTRYPOINT /root/setup.sh
+#ENTRYPOINT /root/setup.sh
