@@ -106,7 +106,8 @@
 #                   signals. Default is "false" unless running on HP-UX in which
 #                   case the default is "true"
 # -----------------------------------------------------------------------------
-set JAVA_OPTS=%JAVA_OPTS% -Duser.timezone=GMT+08
+
+JAVA_OPTS=${JAVA_OPTS}" -Duser.timezone=GMT+08"
 # OS specific support.  $var _must_ be set to either true or false.
 JAVA_HOME=/root/software/jdk1.8.0_191
 #tomcat
