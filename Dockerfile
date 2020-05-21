@@ -55,5 +55,10 @@ RUN chmod 700 /root/setup.sh
 RUN apt-get install -y wget curl git
 RUN apt-get install -y redis-server
 RUN apt-get install -y build-essential cmake
+RUN apt install -y software-properties-common
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
+RUN apt install -y gcc-9 g++-9
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9
+RUN update-alternatives --config gcc
 #define entry point which will be run first when the container starts up
 #ENTRYPOINT /root/setup.sh
